@@ -62,10 +62,10 @@ public class EnemyOneController : EnemyController
             if (!MoveManager.ValidTile(finalPos))    //If we fail again just don't move
                 return false;
         }
-        EnemyController e = MoveManager.EnemyInTile(finalPos);
+        EnemyController e = MoveManager.ObjectInTile<EnemyController>(finalPos);
         if (e != null)
             return false;
-        p = MoveManager.PlayerInTile(finalPos);
+        p = MoveManager.ObjectInTile<PlayerController>(finalPos);
         if (p != null)
             p.Kill();
         canMove = true;

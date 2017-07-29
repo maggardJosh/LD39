@@ -10,7 +10,7 @@ public class PlayerController : BaseMover
 
     public LayerMask TileLayer;
     public LayerMask EnemyLayer;
-   
+
 
     public override bool TryMove()
     {
@@ -31,12 +31,23 @@ public class PlayerController : BaseMover
         Vector3 finalPos = SnapTile.Snap(startPos + posDisp);
         if (!MoveManager.ValidTile(finalPos))
             return false;
-        EnemyController e = MoveManager.EnemyInTile(finalPos);
+        EnemyController e = MoveManager.ObjectInTile<EnemyController>(finalPos);
         if (e != null)
             e.Kill();
+
         EaseToPos(startPos, finalPos);
-        
+
         return true;
+    }
+
+    protected override void HandleMoveDone()
+    {
+        ChargeStation c = MoveManager.ObjectInTile<ChargeStation>(transform.position);
+        if (c != null)
+            ChargeBar.Instance.Recharge();
+        if (ChargeBar.Instance.charges <= 0)
+            Kill();
+        base.HandleMoveDone();
     }
 
     public void Kill()

@@ -53,6 +53,7 @@ public class MoveManager : MonoBehaviour
                     if (p.TryMove())
                     {
                         isMoving = true;
+                        ChargeBar.Instance.UseCharge();
                         StartCoroutine(EaseFunctions.DelayAction(GameSettings.Instance.MoveTime, () => { isMoving = false; MoveState = CurrentMove.ENEMIES; }));
                         return;
                     }
@@ -86,19 +87,9 @@ public class MoveManager : MonoBehaviour
         return false;
     }
 
-    public static EnemyController EnemyInTile(Vector3 pos)
+    public static T ObjectInTile<T>(Vector3 pos) where T :MonoBehaviour
     {
-        foreach (EnemyController e in FindObjectsOfType<EnemyController>())
-        {
-            if (SnapTile.Snap(e.transform.position) == SnapTile.Snap(pos))
-                return e;
-        }
-        return null;
-    }
-
-    public static PlayerController PlayerInTile(Vector3 pos)
-    {
-        foreach (PlayerController e in FindObjectsOfType<PlayerController>())
+        foreach (T e in FindObjectsOfType<T>())
         {
             if (SnapTile.Snap(e.transform.position) == SnapTile.Snap(pos))
                 return e;

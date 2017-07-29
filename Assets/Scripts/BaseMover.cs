@@ -25,7 +25,12 @@ namespace Assets.Scripts
         {
             Vector3 disp = newPos - startPos;
             transform.position = startPos;
-            StartCoroutine(EaseFunctions.GenericTween(EaseFunctions.Type.Linear, GameSettings.Instance.MoveTime, (t) => { transform.position = startPos + disp * GameSettings.Instance.MoveCurve.Evaluate(t); }, null, () => { transform.position = newPos; }));
+            StartCoroutine(EaseFunctions.GenericTween(EaseFunctions.Type.Linear, GameSettings.Instance.MoveTime, (t) => { transform.position = startPos + disp * GameSettings.Instance.MoveCurve.Evaluate(t); }, null, () => { transform.position = newPos; HandleMoveDone(); }));
+        }
+
+        protected virtual void HandleMoveDone()
+        {
+
         }
     }
 }
