@@ -1,28 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets.Scripts;
-using System;
 
-public class EnemyOneController : EnemyController
-{
-
-    bool isReady = false;
-
-    public Sprite normal;
-    public Sprite flash;
-
-
+public class EnemyTwoController : EnemyController {
 
     public override bool TryMove()
     {
-
-        if (!isReady)
-        {
-            isReady = true;
-            return false;
-        }
-        isReady = false;
         PlayerController p = MoveManager.GetPlayer();
         Vector3 diff = transform.position - p.transform.position;
         Vector2 tryMove = Vector2.zero;
@@ -74,32 +58,4 @@ public class EnemyOneController : EnemyController
         transform.position = finalPos;
         return true;
     }
-
-    private float count = 0;
-    private bool flashing = false;
-    public float flashSpeed = .1f;
-    Animator anim;
-    public override void HandleUpdate()
-    {
-        if (anim == null)
-            anim = GetComponent<Animator>();
-        if (!isReady)
-        {
-            GetComponent<SpriteRenderer>().sprite = normal;
-            anim.enabled = true;
-        }
-        else
-        {
-            anim.enabled = false;
-            count += Time.deltaTime;
-            while (count > flashSpeed)
-            {
-                count -= flashSpeed;
-                flashing = !flashing;
-            }
-            GetComponent<SpriteRenderer>().sprite = flashing ? flash : normal;
-        }
-        base.HandleUpdate();
-    }
-
 }

@@ -33,9 +33,15 @@ public class PlayerController : BaseMover
             return false;
         EnemyController e = MoveManager.ObjectInTile<EnemyController>(finalPos);
         if (e != null)
-            e.Kill();
+        {
+            EaseToAttack(startPos, e);
+        }
+        else
+        {
+            EaseToPos(startPos, finalPos);
+        }
 
-        EaseToPos(startPos, finalPos);
+
 
         return true;
     }

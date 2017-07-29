@@ -8,6 +8,7 @@ public class GameSettings : MonoBehaviour {
     public float TileSize = 20f;
     public float MoveTime = .3f;
     public AnimationCurve MoveCurve;
+    public AnimationCurve AttackCurve;
     public Sprite EmptyChargeSprite;
 
     public static GameSettings Instance

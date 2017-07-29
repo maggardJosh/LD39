@@ -32,7 +32,7 @@ public class MoveManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        Screen.SetResolution(320, 480, false);
     }
 
     void OnAwake()
