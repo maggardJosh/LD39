@@ -21,6 +21,9 @@ public class MoveManager : MonoBehaviour
 
     private bool isMoving = false;
 
+    public GameObject currentLevel = null;
+    public GameObject currentLevelPrefab;
+
     public enum CurrentMove
     {
         PLAYER,
@@ -60,6 +63,11 @@ public class MoveManager : MonoBehaviour
                 }
                 break;
             case CurrentMove.ENEMIES:
+                if (GetPlayer() == null)
+                {
+                    //Restart thing
+                    return;
+                }
                 foreach (EnemyController e in FindObjectsOfType<EnemyController>())
                 {
                     if (e.TryMove())
@@ -87,7 +95,7 @@ public class MoveManager : MonoBehaviour
         return false;
     }
 
-    public static T ObjectInTile<T>(Vector3 pos) where T :MonoBehaviour
+    public static T ObjectInTile<T>(Vector3 pos) where T : MonoBehaviour
     {
         foreach (T e in FindObjectsOfType<T>())
         {
@@ -100,5 +108,39 @@ public class MoveManager : MonoBehaviour
     public static PlayerController GetPlayer()
     {
         return FindObjectOfType<PlayerController>();
+    }
+
+    public static void LoadLevel(GameObject level)
+    {
+        Instance.currentLevelPrefab = level;
+        if (Instance.currentLevel != null)
+            Destroy(Instance.currentLevel.gameObject);
+        GameSettings.Instance.LevelSelect.SetActive(false);
+        GameSettings.Instance.LevelSelectButton.SetActive(true);
+        ChargeBar.Instance.gameObject.SetActive(true);
+        ChargeBar.Instance.Recharge();
+        Instance.Reset();
+        Instance.currentLevel = Instantiate(level);
+        Instance.currentLevel.gameObject.SetActive(true);
+    }
+
+    public void ShowLevelSelect()
+    {
+        if (Instance.currentLevel != null)
+            Destroy(Instance.currentLevel.gameObject);
+        GameSettings.Instance.LevelSelect.SetActive(true);
+        GameSettings.Instance.LevelSelectButton.SetActive(false);
+        ChargeBar.Instance.gameObject.SetActive(false);
+    }
+
+    public static void ReloadLevel()
+    {
+        Instance.StartCoroutine(EaseFunctions.DelayAction(GameSettings.Instance.RespawnTime, () => { LoadLevel(Instance.currentLevelPrefab); }));
+        
+    }
+
+    private void Reset()
+    {
+        MoveState = CurrentMove.PLAYER;
     }
 }

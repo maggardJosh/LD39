@@ -12,7 +12,7 @@ public class PlayerController : BaseMover
     public LayerMask EnemyLayer;
 
 
-    public override bool TryMove()
+    public override bool TryMove(bool firstTime = true)
     {
         Vector2 tryMove = Vector2.zero;
         if (Input.GetKeyDown(KeyCode.S))
@@ -56,8 +56,5 @@ public class PlayerController : BaseMover
         base.HandleMoveDone();
     }
 
-    public void Kill()
-    {
-        Destroy(gameObject);
-    }
+   
 }

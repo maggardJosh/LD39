@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyTwoController : EnemyController {
+public class EnemyTwoController : EnemyController
+{
 
-    public override bool TryMove()
+    public override bool TryMove(bool firstTime = true)
     {
         PlayerController p = MoveManager.GetPlayer();
         Vector3 diff = transform.position - p.transform.position;
@@ -50,12 +51,19 @@ public class EnemyTwoController : EnemyController {
         }
         EnemyController e = MoveManager.ObjectInTile<EnemyController>(finalPos);
         if (e != null)
+        {
+            if (!e.hasMoved)
+                e.blockedMovers.Add(this);
             return false;
-        p = MoveManager.ObjectInTile<PlayerController>(finalPos);
-        if (p != null)
-            p.Kill();
+        }
+        thingToKill = MoveManager.ObjectInTile<PlayerController>(finalPos);
+
         canMove = true;
-        transform.position = finalPos;
+        if (thingToKill == null)    //Don't move into spot if killing player
+            transform.position = finalPos;
+        foreach (EnemyController ec in blockedMovers)
+            ec.TryMove(false);
+        blockedMovers.Clear();
         return true;
     }
 }

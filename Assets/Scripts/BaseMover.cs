@@ -9,6 +9,7 @@ namespace Assets.Scripts
 {
     public abstract class BaseMover : MonoBehaviour
     {
+        protected BaseMover thingToKill;
 
         public void Update()
         {
@@ -19,34 +20,36 @@ namespace Assets.Scripts
         {
 
         }
-        public abstract bool TryMove();
+        public abstract bool TryMove(bool firstTime = true);
 
+        public void FixedUpdate()
+        {
+            if (isMoving)
+                SpawnDirt();
+        }
+        private bool isMoving = false;
         protected void EaseToPos(Vector3 startPos, Vector3 newPos)
         {
             Vector3 disp = newPos - startPos;
             transform.position = startPos;
+            isMoving = true;
             StartCoroutine(EaseFunctions.GenericTween(EaseFunctions.Type.Linear, GameSettings.Instance.MoveTime, (t) =>
             {
-                SpawnDirt();
                 transform.position = startPos + disp * GameSettings.Instance.MoveCurve.Evaluate(t);
             }, null, () => { transform.position = newPos; HandleMoveDone(); }));
         }
 
-        protected void EaseToAttack(Vector3 startPos, EnemyController e)
+        protected void EaseToAttack(Vector3 startPos, BaseMover e)
         {
+            thingToKill = e;
             Vector3 newPos = e.transform.position;
             Vector3 disp = newPos - startPos;
             transform.position = startPos;
-            bool killedEnemy = false;
+            isMoving = true;
             StartCoroutine(EaseFunctions.GenericTween(EaseFunctions.Type.Linear, GameSettings.Instance.MoveTime, (t) =>
             {
-                SpawnDirt();
                 transform.position = startPos + disp * GameSettings.Instance.AttackCurve.Evaluate(t);
-                if (t > .5f && !killedEnemy)
-                {
-                    e.Kill();
-                    killedEnemy = true;
-                }
+
             }, null, () => { transform.position = startPos; HandleMoveDone(); }));
         }
 
@@ -61,9 +64,34 @@ namespace Assets.Scripts
             }
         }
 
+        public void OnDestroy()
+        {
+            if (GameSettings.IsShuttingDown)
+                return;
+            for (int i = 0; i < 30; i++)
+            {
+                GameObject dustObj = Instantiate(GameSettings.Instance.DustPrefab);
+                Vector2 randDisp = UnityEngine.Random.insideUnitCircle * (GameSettings.Instance.DustDisp + .1f);
+                dustObj.transform.position = transform.position + GameSettings.Instance.DustStartDisp + new Vector3(randDisp.x, randDisp.y);
+
+            }
+        }
+
+        public virtual void Kill()
+        {
+            if (this is PlayerController)
+                MoveManager.ReloadLevel();
+                
+
+            Destroy(gameObject);
+        }
+
         protected virtual void HandleMoveDone()
         {
-
+            if (thingToKill != null)
+                thingToKill.Kill();
+            thingToKill = null;
+            isMoving = false;
         }
     }
 }

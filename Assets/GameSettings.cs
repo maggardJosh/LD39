@@ -14,6 +14,11 @@ public class GameSettings : MonoBehaviour {
     public float DustParticleChance = .3f;
     public float DustDisp = .2f;
     public Vector3 DustStartDisp;
+    public static bool IsShuttingDown = false;
+    public ChargeBar ChargeBar;
+    public GameObject LevelSelect;
+    public float RespawnTime = .5f;
+    public GameObject LevelSelectButton;
 
     public static GameSettings Instance
     {
@@ -25,6 +30,11 @@ public class GameSettings : MonoBehaviour {
                 throw new Exception("Need GameSettings instance in scene");
             return _instance;
         }
+    }
+
+    public void OnApplicationQuit()
+    {
+        IsShuttingDown = true;
     }
 
     private static GameSettings _instance;
