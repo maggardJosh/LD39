@@ -51,12 +51,19 @@ public class PlayerController : BaseMover
         ChargeStation c = MoveManager.ObjectInTile<ChargeStation>(transform.position);
         if (c != null)
         {
-
             ChargeBar.Instance.Recharge();
             SpawnChargeParticles();
         }
+
+        GoalTile g = MoveManager.ObjectInTile<GoalTile>(transform.position);
+        if(g != null)
+        {
+            MoveManager.LoadLevel(g.NextLevel);
+            return;
+        }
         if (ChargeBar.Instance.charges <= 0)
             Kill();
+
         base.HandleMoveDone();
     }
 

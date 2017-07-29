@@ -57,7 +57,7 @@ public class MoveManager : MonoBehaviour
                     {
                         isMoving = true;
                         ChargeBar.Instance.UseCharge();
-                        StartCoroutine(EaseFunctions.DelayAction(GameSettings.Instance.MoveTime, () => { isMoving = false; MoveState = CurrentMove.ENEMIES; }));
+                        StartCoroutine(EaseFunctions.DelayAction(GameSettings.Instance.MoveTime*.9f, () => { isMoving = false; MoveState = CurrentMove.ENEMIES; }));
                         return;
                     }
                 }
@@ -112,6 +112,11 @@ public class MoveManager : MonoBehaviour
 
     public static void LoadLevel(GameObject level)
     {
+        if(level == null)
+        {
+            Instance.ShowLevelSelect();
+            return;
+        }
         Instance.currentLevelPrefab = level;
         if (Instance.currentLevel != null)
             Destroy(Instance.currentLevel.gameObject);
