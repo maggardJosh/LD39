@@ -46,9 +46,9 @@ public class EnemyOneController : EnemyController
             else
                 tryMove = Vector2.down;
             if (diff.x > 0)
-                secondMove = Vector2.right;
-            else
                 secondMove = Vector2.left;
+            else
+                secondMove = Vector2.right;
         }
 
         startPos = transform.position;
