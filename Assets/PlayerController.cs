@@ -50,11 +50,26 @@ public class PlayerController : BaseMover
     {
         ChargeStation c = MoveManager.ObjectInTile<ChargeStation>(transform.position);
         if (c != null)
+        {
+
             ChargeBar.Instance.Recharge();
+            SpawnChargeParticles();
+        }
         if (ChargeBar.Instance.charges <= 0)
             Kill();
         base.HandleMoveDone();
     }
 
-   
+    private void SpawnChargeParticles()
+    {
+        for (int i = 0; i < 30; i++)
+        {
+            GameObject chargeObj = Instantiate(GameSettings.Instance.ChargeParticlePrefab);
+            Vector2 randDisp = UnityEngine.Random.insideUnitCircle * (GameSettings.Instance.DustDisp+.04f);
+            chargeObj.transform.position = transform.position + GameSettings.Instance.DustStartDisp + new Vector3(randDisp.x, randDisp.y);
+
+        }
+    }
+
+
 }

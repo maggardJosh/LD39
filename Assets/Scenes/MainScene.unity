@@ -1217,6 +1217,8 @@ MonoBehaviour:
   LevelSelect: {fileID: 1098302056}
   RespawnTime: 0.5
   LevelSelectButton: {fileID: 732206071}
+  ChargeParticlePrefab: {fileID: 1911225949096976, guid: a711033e93fe3e049a9c1521bba20f61,
+    type: 2}
 --- !u!114 &415586755
 MonoBehaviour:
   m_ObjectHideFlags: 0

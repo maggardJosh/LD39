@@ -19,6 +19,7 @@ public class GameSettings : MonoBehaviour {
     public GameObject LevelSelect;
     public float RespawnTime = .5f;
     public GameObject LevelSelectButton;
+    public GameObject ChargeParticlePrefab;
 
     public static GameSettings Instance
     {
