@@ -65,11 +65,13 @@ public class MoveManager : MonoBehaviour
                     {
                         isMoving = true;
                         StartCoroutine(EaseFunctions.DelayAction(GameSettings.Instance.MoveTime, () => { isMoving = false; MoveState = CurrentMove.PLAYER; }));
-                        return;
                     }
                 }
                 if (!isMoving)
                     MoveState = CurrentMove.PLAYER;
+                else
+                    foreach (EnemyController e in FindObjectsOfType<EnemyController>())
+                        e.StartMoveTween();
                 break;
         }
     }
@@ -102,5 +104,10 @@ public class MoveManager : MonoBehaviour
                 return e;
         }
         return null;
+    }
+
+    public static PlayerController GetPlayer()
+    {
+        return FindObjectOfType<PlayerController>();
     }
 }

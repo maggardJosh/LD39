@@ -24,6 +24,7 @@ namespace Assets.Scripts
         protected void EaseToPos(Vector3 startPos, Vector3 newPos)
         {
             Vector3 disp = newPos - startPos;
+            transform.position = startPos;
             StartCoroutine(EaseFunctions.GenericTween(EaseFunctions.Type.Linear, GameSettings.Instance.MoveTime, (t) => { transform.position = startPos + disp * GameSettings.Instance.MoveCurve.Evaluate(t); }, null, () => { transform.position = newPos; }));
         }
     }
