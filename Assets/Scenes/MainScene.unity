@@ -1147,6 +1147,10 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   EmptyChargeSprite: {fileID: 21300012, guid: 06157c6b8e45dd740a8fb68e4091cd96, type: 3}
+  DustPrefab: {fileID: 1267794447066230, guid: dbadfeee146f0234db7fc1027d619c01, type: 2}
+  DustParticleChance: 0.7
+  DustDisp: 0.02
+  DustStartDisp: {x: 0, y: -0.05, z: 0}
 --- !u!114 &415586755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2378,7 +2382,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 8.7, y: 5.3}
+  m_AnchoredPosition: {x: 8.700012, y: 5.299988}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &975382729
@@ -4330,18 +4334,18 @@ Transform:
   - {fileID: 263638770}
   - {fileID: 855493083}
   - {fileID: 523740318}
-  - {fileID: 483419836}
   - {fileID: 1774728469}
   - {fileID: 1360093161}
   - {fileID: 1666366325}
+  - {fileID: 483419836}
   - {fileID: 1686961418}
   - {fileID: 2138459983}
   - {fileID: 1165947392}
   - {fileID: 268630896}
   - {fileID: 144069787}
   - {fileID: 146961526}
-  - {fileID: 451705762}
   - {fileID: 567564545}
+  - {fileID: 451705762}
   - {fileID: 1943690424}
   - {fileID: 286606031}
   - {fileID: 279920140}
@@ -4357,11 +4361,11 @@ Transform:
   - {fileID: 1656299465}
   - {fileID: 1932341644}
   - {fileID: 399701375}
-  - {fileID: 1628600652}
   - {fileID: 1492714094}
+  - {fileID: 1628600652}
   - {fileID: 2087562516}
-  - {fileID: 190617956}
   - {fileID: 1618362785}
+  - {fileID: 190617956}
   - {fileID: 1241638288}
   m_Father: {fileID: 0}
   m_RootOrder: 1

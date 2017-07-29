@@ -10,6 +10,10 @@ public class GameSettings : MonoBehaviour {
     public AnimationCurve MoveCurve;
     public AnimationCurve AttackCurve;
     public Sprite EmptyChargeSprite;
+    public GameObject DustPrefab;
+    public float DustParticleChance = .3f;
+    public float DustDisp = .2f;
+    public Vector3 DustStartDisp;
 
     public static GameSettings Instance
     {
