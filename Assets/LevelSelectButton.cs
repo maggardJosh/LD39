@@ -17,6 +17,8 @@ public class LevelSelectButton : MonoBehaviour {
 	void Update () {
         if (Application.isPlaying)
             return;
+        foreach (Text t in GetComponentsInChildren<Text>())
+            t.text = gameObject.name;
         GetComponent<Button>().interactable = levelPrefab != null;
 	}
 

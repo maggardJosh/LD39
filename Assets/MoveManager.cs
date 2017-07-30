@@ -78,14 +78,28 @@ public class MoveManager : MonoBehaviour
                 bool isAttack = false;
                 foreach (EnemyController e in FindObjectsOfType<EnemyController>())
                 {
-                    if (e.TryMove())
+                    e.GetInitialPos();
+                    if (e.TryIdealMove())
                     {
                         isMoving = true;
                         isAttack &= e.thingToKill != null;  //If we've got an attacker this turn
                     }
                 }
+                foreach(EnemyController e in FindObjectsOfType<EnemyController>())
+                {
+                    if (!e.hasMoved)
+                        if(e.TrySecondaryMoves())
+                        {
+                            isMoving = true;
+                            isAttack &= e.thingToKill != null;
+                        }
+                }
                 if (!isMoving)
+                {
                     MoveState = CurrentMove.PLAYER;
+                    foreach (EnemyController e in FindObjectsOfType<EnemyController>())
+                        e.hasMoved = false;
+                }
                 else
                 {
                     foreach (EnemyController e in FindObjectsOfType<EnemyController>())

@@ -9,6 +9,7 @@ public abstract class EnemyController : BaseMover
     public bool hasMoved = false;
     protected Vector3 startPos;
     protected Vector3 finalPos;
+    protected Vector3 initialPos;
     public bool canMove = false;
 
     public List<EnemyController> blockedMovers = new List<EnemyController>(); //List of pieces that have been blocked by me
@@ -24,13 +25,12 @@ public abstract class EnemyController : BaseMover
         hasMoved = false;
     }
 
-    public virtual void TryIdealMove()
+    public void GetInitialPos()
     {
-
+        initialPos = transform.position;
     }
 
-    public virtual void TrySecondaryMoves()
-    {
+    public abstract bool TryIdealMove();
 
-    }
+    public abstract bool TrySecondaryMoves();
 }
