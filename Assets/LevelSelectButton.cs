@@ -24,6 +24,8 @@ public class LevelSelectButton : MonoBehaviour {
 
     public void LoadLevel()
     {
+        GameSettings.Instance.SetLevel(int.Parse(gameObject.name));
+        
         MoveManager.LoadLevel(levelPrefab);
     }
 }

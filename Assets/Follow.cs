@@ -18,7 +18,12 @@ public class Follow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(followObj == null)
+       
+    }
+
+    void FixedUpdate()
+    {
+        if (followObj == null)
         {
             PlayerController pc = FindObjectOfType<PlayerController>();
             if (pc != null)

@@ -102,11 +102,6 @@ public class EnemyOneController : EnemyController
             }
         }
 
-        Debug.Log(gameObject);
-        Debug.Log("tMove: " + tryMove);
-        foreach (Vector2 m in Moves)
-            Debug.Log(m);
-        Debug.Log("------------");
         startPos = transform.position;
         Vector3 posDisp = new Vector3(tryMove.x * GameSettings.Instance.TileSize / 100f, tryMove.y * GameSettings.Instance.TileSize / 100f, 0);
         finalPos = SnapTile.Snap(startPos + posDisp);

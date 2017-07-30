@@ -46,6 +46,11 @@ public class MoveManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameSettings.Instance.isTransitioning)
+        {
+            MoveState = CurrentMove.PLAYER;
+            return;
+        }
         if (isMoving)
         {
             if (MoveState == CurrentMove.PLAYER)
@@ -64,7 +69,7 @@ public class MoveManager : MonoBehaviour
                         isMoving = true;
                         ChargeBar.Instance.UseCharge();
                         EnergyExpenseNotification.Show(p.transform.position, p.lastMove);
-                        StartCoroutine(EaseFunctions.DelayAction(p.thingToKill == null ? GameSettings.Instance.MoveTime*.9f : GameSettings.Instance.AttackTime*.9f, () => { isMoving = false; MoveState = CurrentMove.ENEMIES; }));
+                        StartCoroutine(EaseFunctions.DelayAction(p.thingToKill == null ? GameSettings.Instance.MoveTime * .9f : GameSettings.Instance.AttackTime * .9f, () => { isMoving = false; MoveState = CurrentMove.ENEMIES; }));
                         return;
                     }
                 }
@@ -85,10 +90,10 @@ public class MoveManager : MonoBehaviour
                         isAttack &= e.thingToKill != null;  //If we've got an attacker this turn
                     }
                 }
-                foreach(EnemyController e in FindObjectsOfType<EnemyController>())
+                foreach (EnemyController e in FindObjectsOfType<EnemyController>())
                 {
                     if (!e.hasMoved)
-                        if(e.TrySecondaryMoves())
+                        if (e.TrySecondaryMoves())
                         {
                             isMoving = true;
                             isAttack &= e.thingToKill != null;
@@ -137,39 +142,93 @@ public class MoveManager : MonoBehaviour
     public bool ShouldSpawnParticlesOnDeath = true;
     public static void LoadLevel(GameObject level)
     {
-        Instance.ShouldSpawnParticlesOnDeath = level == Instance.currentLevelPrefab;
-        if(level == null)
-        {
-            Instance.ShowLevelSelect();
+        if (GameSettings.Instance.isTransitioning)
             return;
+
+        GameSettings.Instance.TransitionLevelSelectOut(null);
+        if (level == Instance.currentLevelPrefab)
+        {
+            Instance.ShouldSpawnParticlesOnDeath = level == Instance.currentLevelPrefab;
+
+            Instance.currentLevelPrefab = level;
+            if (Instance.currentLevel != null)
+                Destroy(Instance.currentLevel.gameObject);
+            foreach (Transform t in GameSettings.Instance.ParticleContainer)
+                Destroy(t.gameObject);
+            GameSettings.Instance.LevelSelect.SetActive(false);
+            ChargeBar.Instance.Recharge();
+            Instance.Reset();
+            Instance.currentLevel = Instantiate(level);
+            Instance.currentLevel.gameObject.SetActive(true);
         }
-        Instance.currentLevelPrefab = level;
-        if (Instance.currentLevel != null)
-            Destroy(Instance.currentLevel.gameObject);
-        foreach (Transform t in GameSettings.Instance.ParticleContainer)
-            Destroy(t.gameObject);
-        GameSettings.Instance.LevelSelect.SetActive(false);
-        GameSettings.Instance.LevelSelectButton.SetActive(true);
-        ChargeBar.Instance.gameObject.SetActive(true);
-        ChargeBar.Instance.Recharge();
-        Instance.Reset();
-        Instance.currentLevel = Instantiate(level);
-        Instance.currentLevel.gameObject.SetActive(true);
+        else
+        {
+            Follow f = FindObjectOfType<Follow>();
+            f.enabled = false;
+            Vector3 startPos = f.transform.position;
+            Vector3 disp = Vector3.down * 5;
+            GameSettings.Instance.isTransitioning = true;
+
+            Instance.StartCoroutine(EaseFunctions.GenericTween(EaseFunctions.Type.BackIn, GameSettings.Instance.SceneTransitionTime, (t) =>
+          {
+              f.transform.position = startPos + disp * t;
+          }, null, () =>
+          {
+              if (Instance.currentLevelPrefab != null)
+                  GameSettings.Instance.IncreaseLevel();
+              GameSettings.Instance.isTransitioning = false;
+              f.enabled = true;
+              f.transform.position = Vector3.up * 6;
+              Instance.ShouldSpawnParticlesOnDeath = level == Instance.currentLevelPrefab;
+              if (level == null)
+              {
+                  Instance.ShowLevelSelect();
+                  return;
+              }
+              Instance.currentLevelPrefab = level;
+              if (Instance.currentLevel != null)
+                  Destroy(Instance.currentLevel.gameObject);
+              foreach (Transform t in GameSettings.Instance.ParticleContainer)
+                  Destroy(t.gameObject);
+              GameSettings.Instance.LevelSelect.SetActive(false);
+              ChargeBar.Instance.Recharge();
+              Instance.Reset();
+              Instance.currentLevel = Instantiate(level);
+              Instance.currentLevel.gameObject.SetActive(true);
+              f.transform.position = GetPlayer().transform.position + Vector3.up * 6;
+          }));
+        }
     }
 
     public void ShowLevelSelect()
     {
-        if (Instance.currentLevel != null)
-            Destroy(Instance.currentLevel.gameObject);
+        if (GameSettings.Instance.isTransitioning)
+            return;
+        Follow f = FindObjectOfType<Follow>();
+        f.enabled = false;
+        Vector3 startPos = f.transform.position;
+        Vector3 disp = Vector3.up * 5;
+        GameSettings.Instance.isTransitioning = true;
+        currentLevelPrefab = null;
+
+        GameSettings.Instance.TransitionLevelSelectIn();
         GameSettings.Instance.LevelSelect.SetActive(true);
-        GameSettings.Instance.LevelSelectButton.SetActive(false);
-        ChargeBar.Instance.gameObject.SetActive(false);
+        Instance.StartCoroutine(EaseFunctions.GenericTween(EaseFunctions.Type.CircIn, GameSettings.Instance.SceneTransitionTime, (t) =>
+        {
+
+            f.transform.position = startPos + disp * t;
+        }, null, () =>
+        {
+            f.enabled = true;
+            if (Instance.currentLevel != null)
+                Destroy(Instance.currentLevel.gameObject);
+        }));
     }
 
     public static void ReloadLevel()
     {
         Instance.StartCoroutine(EaseFunctions.DelayAction(GameSettings.Instance.RespawnTime, () => { LoadLevel(Instance.currentLevelPrefab); }));
-        
+
     }
 
     private void Reset()
