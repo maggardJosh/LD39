@@ -22,6 +22,14 @@ namespace Assets.Scripts
         }
         public abstract bool TryMove(bool firstTime = true);
 
+        public void Awake()
+        {
+            HandleAwake();
+        }
+        public virtual void HandleAwake()
+        {
+
+        }
         public void FixedUpdate()
         {
             if (isMoving)

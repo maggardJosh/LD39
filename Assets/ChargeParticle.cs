@@ -26,6 +26,8 @@ public class ChargeParticle : ScaleOut
     {
         if (p == null)
             p = MoveManager.GetPlayer();
+        if (p == null)
+            return;
         if (!returning)
         {
 

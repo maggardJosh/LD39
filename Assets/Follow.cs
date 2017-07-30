@@ -8,6 +8,7 @@ public class Follow : MonoBehaviour
 {
     public float tweenValue = .2f;
     public GameObject followObj;
+    
     // Use this for initialization
     void Start()
     {

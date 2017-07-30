@@ -20,6 +20,10 @@ public class GameSettings : MonoBehaviour {
     public float RespawnTime = .5f;
     public GameObject LevelSelectButton;
     public GameObject ChargeParticlePrefab;
+    public Sprite GoalOn;
+    public Sprite GoalOff;
+    public GameObject batteryNotifPrefab;
+    public GameObject energyNotifPrefab;
 
     public static GameSettings Instance
     {

@@ -19,7 +19,7 @@ public class MoveManager : MonoBehaviour
     }
     private static MoveManager _instance;
 
-    private bool isMoving = false;
+    public bool isMoving = false;
 
     public GameObject currentLevel = null;
     public GameObject currentLevelPrefab;
@@ -47,7 +47,12 @@ public class MoveManager : MonoBehaviour
     void Update()
     {
         if (isMoving)
+        {
+            if (MoveState == CurrentMove.PLAYER)
+                foreach (PlayerController p in FindObjectsOfType<PlayerController>())
+                    p.CheckForPreMoves();
             return;
+        }
         switch (MoveState)
         {
             case CurrentMove.PLAYER:
@@ -57,6 +62,7 @@ public class MoveManager : MonoBehaviour
                     {
                         isMoving = true;
                         ChargeBar.Instance.UseCharge();
+                        EnergyExpenseNotification.Show(p.transform.position, p.lastMove);
                         StartCoroutine(EaseFunctions.DelayAction(GameSettings.Instance.MoveTime*.9f, () => { isMoving = false; MoveState = CurrentMove.ENEMIES; }));
                         return;
                     }
