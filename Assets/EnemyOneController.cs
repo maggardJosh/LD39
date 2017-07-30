@@ -76,8 +76,8 @@ public class EnemyOneController : EnemyController
         if (thingToKill == null)    //Don't move into spot if killing player
             transform.position = finalPos;
         hasMoved = true;
-        foreach (EnemyController ec in blockedMovers)
-            ec.TryMove(false);
+       // foreach (EnemyController ec in blockedMovers)
+       //     ec.TryMove(false);
         blockedMovers.Clear();
         return true;
     }

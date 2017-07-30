@@ -53,6 +53,7 @@ public class MoveManager : MonoBehaviour
                     p.CheckForPreMoves();
             return;
         }
+        Instance.ShouldSpawnParticlesOnDeath = true;
         switch (MoveState)
         {
             case CurrentMove.PLAYER:
@@ -63,7 +64,7 @@ public class MoveManager : MonoBehaviour
                         isMoving = true;
                         ChargeBar.Instance.UseCharge();
                         EnergyExpenseNotification.Show(p.transform.position, p.lastMove);
-                        StartCoroutine(EaseFunctions.DelayAction(GameSettings.Instance.MoveTime*.9f, () => { isMoving = false; MoveState = CurrentMove.ENEMIES; }));
+                        StartCoroutine(EaseFunctions.DelayAction(p.thingToKill == null ? GameSettings.Instance.MoveTime*.9f : GameSettings.Instance.AttackTime*.9f, () => { isMoving = false; MoveState = CurrentMove.ENEMIES; }));
                         return;
                     }
                 }
@@ -74,19 +75,23 @@ public class MoveManager : MonoBehaviour
                     //Restart thing
                     return;
                 }
+                bool isAttack = false;
                 foreach (EnemyController e in FindObjectsOfType<EnemyController>())
                 {
                     if (e.TryMove())
                     {
                         isMoving = true;
-                        StartCoroutine(EaseFunctions.DelayAction(GameSettings.Instance.MoveTime, () => { isMoving = false; MoveState = CurrentMove.PLAYER; }));
+                        isAttack &= e.thingToKill != null;  //If we've got an attacker this turn
                     }
                 }
                 if (!isMoving)
                     MoveState = CurrentMove.PLAYER;
                 else
+                {
                     foreach (EnemyController e in FindObjectsOfType<EnemyController>())
                         e.StartMoveTween();
+                    StartCoroutine(EaseFunctions.DelayAction(isAttack ? GameSettings.Instance.AttackTime : GameSettings.Instance.MoveTime, () => { isMoving = false; MoveState = CurrentMove.PLAYER; }));
+                }
                 break;
         }
     }
@@ -115,9 +120,10 @@ public class MoveManager : MonoBehaviour
     {
         return FindObjectOfType<PlayerController>();
     }
-
+    public bool ShouldSpawnParticlesOnDeath = true;
     public static void LoadLevel(GameObject level)
     {
+        Instance.ShouldSpawnParticlesOnDeath = level == Instance.currentLevelPrefab;
         if(level == null)
         {
             Instance.ShowLevelSelect();
@@ -126,6 +132,8 @@ public class MoveManager : MonoBehaviour
         Instance.currentLevelPrefab = level;
         if (Instance.currentLevel != null)
             Destroy(Instance.currentLevel.gameObject);
+        foreach (Transform t in GameSettings.Instance.ParticleContainer)
+            Destroy(t.gameObject);
         GameSettings.Instance.LevelSelect.SetActive(false);
         GameSettings.Instance.LevelSelectButton.SetActive(true);
         ChargeBar.Instance.gameObject.SetActive(true);

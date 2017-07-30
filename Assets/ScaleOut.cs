@@ -11,6 +11,7 @@ public class ScaleOut : MonoBehaviour {
 	void Start () {
 
         startAngle = UnityEngine.Random.Range(0, 360f);
+        transform.SetParent(GameSettings.Instance.ParticleContainer);
     }
 
     protected float count = 0;

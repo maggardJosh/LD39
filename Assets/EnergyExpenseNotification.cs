@@ -15,7 +15,7 @@ public class EnergyExpenseNotification : MonoBehaviour {
     public Vector3 direction = Vector3.up;
 	// Use this for initialization
 	void Start () {
-		
+        transform.SetParent(GameSettings.Instance.ParticleContainer);
 	}
 	
 	// Update is called once per frame

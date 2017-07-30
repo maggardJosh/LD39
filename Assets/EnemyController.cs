@@ -24,4 +24,13 @@ public abstract class EnemyController : BaseMover
         hasMoved = false;
     }
 
+    public virtual void TryIdealMove()
+    {
+
+    }
+
+    public virtual void TrySecondaryMoves()
+    {
+
+    }
 }

@@ -434,7 +434,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1802307547559502
 GameObject:
   m_ObjectHideFlags: 1
@@ -1512,6 +1512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c763ac61ab785154997e5e08cce7910a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thingToKill: {fileID: 0}
   hasMoved: 0
   canMove: 0
   blockedMovers: []
@@ -1570,6 +1571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c763ac61ab785154997e5e08cce7910a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thingToKill: {fileID: 0}
   hasMoved: 0
   canMove: 0
   blockedMovers: []
@@ -1716,12 +1718,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62945936b1c5e1748aa88da04f2a0e74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thingToKill: {fileID: 0}
   TileLayer:
     serializedVersion: 2
     m_Bits: 0
   EnemyLayer:
     serializedVersion: 2
     m_Bits: 0
+  storedMove: {x: 0, y: 0}
+  bNotif: {fileID: 0}
+  lastMove: {x: 0, y: 0, z: 0}
 --- !u!114 &114584689233550758
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1810,6 +1816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c763ac61ab785154997e5e08cce7910a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thingToKill: {fileID: 0}
   hasMoved: 0
   canMove: 0
   blockedMovers: []

@@ -938,12 +938,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62945936b1c5e1748aa88da04f2a0e74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thingToKill: {fileID: 0}
   TileLayer:
     serializedVersion: 2
     m_Bits: 0
   EnemyLayer:
     serializedVersion: 2
     m_Bits: 0
+  storedMove: {x: 0, y: 0}
+  bNotif: {fileID: 0}
+  lastMove: {x: 0, y: 0, z: 0}
 --- !u!114 &114384335947853850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1000,6 +1004,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextLevel: {fileID: 1430012583314888, guid: d8f8450501b0ebf47a844624c0408114, type: 2}
+  enemiesKilled: 0
 --- !u!114 &114685802081019838
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1313,8 +1318,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1885578173
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3739f22a272c0b24ca67f9f0d4cdf39c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

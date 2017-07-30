@@ -9,7 +9,7 @@ namespace Assets.Scripts
 {
     public abstract class BaseMover : MonoBehaviour
     {
-        protected BaseMover thingToKill;
+        public BaseMover thingToKill;
 
         public void Update()
         {
@@ -46,7 +46,7 @@ namespace Assets.Scripts
                 transform.position = startPos + disp * GameSettings.Instance.MoveCurve.Evaluate(t);
             }, null, () => { transform.position = newPos; HandleMoveDone(); }));
         }
-
+        Follow followScript;
         protected void EaseToAttack(Vector3 startPos, BaseMover e)
         {
             thingToKill = e;
@@ -54,11 +54,31 @@ namespace Assets.Scripts
             Vector3 disp = newPos - startPos;
             transform.position = startPos;
             isMoving = true;
-            StartCoroutine(EaseFunctions.GenericTween(EaseFunctions.Type.Linear, GameSettings.Instance.MoveTime, (t) =>
+            if (this is PlayerController)
+            {
+                followScript = FindObjectOfType<Follow>();
+                if (followScript != null)
+                    followScript.enabled = false;
+            }
+            bool hasKilled = false;
+            StartCoroutine(EaseFunctions.GenericTween(EaseFunctions.Type.Linear, GameSettings.Instance.AttackTime, (t) =>
             {
                 transform.position = startPos + disp * GameSettings.Instance.AttackCurve.Evaluate(t);
+                if(!hasKilled && t > .5f)
+                {
+                    hasKilled = true;
 
-            }, null, () => { transform.position = startPos; HandleMoveDone(); }));
+                    if (thingToKill != null)
+                        thingToKill.Kill();
+                }
+
+            }, null, () =>
+            {
+                if (followScript != null)
+                    followScript.enabled = true;
+                transform.position = startPos;
+                HandleMoveDone();
+            }));
         }
 
         private void SpawnDirt()
@@ -74,7 +94,7 @@ namespace Assets.Scripts
 
         public void OnDestroy()
         {
-            if (GameSettings.IsShuttingDown)
+            if (GameSettings.IsShuttingDown || !MoveManager.Instance.ShouldSpawnParticlesOnDeath)
                 return;
             for (int i = 0; i < 30; i++)
             {
@@ -89,15 +109,13 @@ namespace Assets.Scripts
         {
             if (this is PlayerController)
                 MoveManager.ReloadLevel();
-                
+
 
             Destroy(gameObject);
         }
 
         protected virtual void HandleMoveDone()
         {
-            if (thingToKill != null)
-                thingToKill.Kill();
             thingToKill = null;
             isMoving = false;
         }

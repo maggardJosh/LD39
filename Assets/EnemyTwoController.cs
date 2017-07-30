@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyTwoController : EnemyController
 {
-
+    List<Vector2> Moves = new List<Vector2>();
     public override bool TryMove(bool firstTime = true)
     {
         PlayerController p = MoveManager.GetPlayer();

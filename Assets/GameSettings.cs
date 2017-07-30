@@ -7,6 +7,7 @@ public class GameSettings : MonoBehaviour {
 
     public float TileSize = 20f;
     public float MoveTime = .3f;
+    public float AttackTime = .6f;
     public AnimationCurve MoveCurve;
     public AnimationCurve AttackCurve;
     public Sprite EmptyChargeSprite;
@@ -20,10 +21,12 @@ public class GameSettings : MonoBehaviour {
     public float RespawnTime = .5f;
     public GameObject LevelSelectButton;
     public GameObject ChargeParticlePrefab;
+    public int ChargeParticles = 20;
     public Sprite GoalOn;
     public Sprite GoalOff;
     public GameObject batteryNotifPrefab;
     public GameObject energyNotifPrefab;
+    public Transform ParticleContainer;
 
     public static GameSettings Instance
     {

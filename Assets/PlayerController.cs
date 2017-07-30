@@ -106,7 +106,7 @@ public class PlayerController : BaseMover
     }
     private void SpawnChargeParticles()
     {
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < GameSettings.Instance.ChargeParticles; i++)
         {
             GameObject chargeObj = Instantiate(GameSettings.Instance.ChargeParticlePrefab);
             Vector2 randDisp = UnityEngine.Random.insideUnitCircle * (GameSettings.Instance.DustDisp + .04f);
