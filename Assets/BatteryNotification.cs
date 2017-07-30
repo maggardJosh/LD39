@@ -35,22 +35,30 @@ public class BatteryNotification : MonoBehaviour
         switch (pLevel)
         {
             case PowerLevel.LOW:
+                bool toggle = false;
                 while ((count >= lowFlashTimeOff && !sRend.enabled) ||
                     (count >= lowFlashTimeOn && sRend.enabled))
                 {
+                    toggle = true;
                     count -= sRend.enabled ? lowFlashTimeOn : lowFlashTimeOff;
                     sRend.enabled = !sRend.enabled;
                 }
+                if (toggle && sRend.enabled)
+                    SoundManager.Play(GameSettings.Instance.WarningSound);
                 sRend.sprite = low;
                 break;
             case PowerLevel.MED:
-
+                toggle = false;
                 while ((count >= medFlashTimeOff && !sRend.enabled) ||
                     (count >= medFlashTimeOn && sRend.enabled))
                 {
+                    toggle = true;
+
                     count -= sRend.enabled ? medFlashTimeOn : medFlashTimeOff;
                     sRend.enabled = !sRend.enabled;
                 }
+                if (toggle && sRend.enabled)
+                    SoundManager.Play(GameSettings.Instance.WarningSound);
                 sRend.sprite = med;
                 break;
             case PowerLevel.HIGH:

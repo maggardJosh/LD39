@@ -41,10 +41,16 @@ namespace Assets.Scripts
             Vector3 disp = newPos - startPos;
             transform.position = startPos;
             isMoving = true;
+         //   SoundManager.Play(GameSettings.Instance.PlayerMove1Sound);
             StartCoroutine(EaseFunctions.GenericTween(EaseFunctions.Type.Linear, GameSettings.Instance.MoveTime, (t) =>
             {
                 transform.position = startPos + disp * GameSettings.Instance.MoveCurve.Evaluate(t);
-            }, null, () => { transform.position = newPos; HandleMoveDone(); }));
+            }, null, () =>
+            {
+                transform.position = newPos;
+                HandleMoveDone();
+                SoundManager.Play(GameSettings.Instance.PlayerMoveSound);
+            }));
         }
         Follow followScript;
         protected void EaseToAttack(Vector3 startPos, BaseMover e)
@@ -64,7 +70,7 @@ namespace Assets.Scripts
             StartCoroutine(EaseFunctions.GenericTween(EaseFunctions.Type.Linear, GameSettings.Instance.AttackTime, (t) =>
             {
                 transform.position = startPos + disp * GameSettings.Instance.AttackCurve.Evaluate(t);
-                if(!hasKilled && t > .5f)
+                if (!hasKilled && t > .5f)
                 {
                     hasKilled = true;
 
@@ -110,6 +116,7 @@ namespace Assets.Scripts
             if (this is PlayerController)
                 MoveManager.ReloadLevel();
 
+            SoundManager.Play(GameSettings.Instance.DeathSound);
 
             Destroy(gameObject);
         }

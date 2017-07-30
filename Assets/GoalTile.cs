@@ -10,7 +10,8 @@ public class GoalTile : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        enemiesKilled = (FindObjectOfType<EnemyController>() == null);
+        GetComponent<SpriteRenderer>().sprite = enemiesKilled ? GameSettings.Instance.GoalOn : GameSettings.Instance.GoalOff;
     }
 
     // Update is called once per frame
@@ -19,6 +20,9 @@ public class GoalTile : MonoBehaviour
         if (!enemiesKilled)
         {
             enemiesKilled = (FindObjectOfType<EnemyController>() == null);
+
+            if (enemiesKilled)
+                SoundManager.Play(GameSettings.Instance.LevelEndOpenSound);
             GetComponent<SpriteRenderer>().sprite = enemiesKilled ? GameSettings.Instance.GoalOn : GameSettings.Instance.GoalOff;
         }
 

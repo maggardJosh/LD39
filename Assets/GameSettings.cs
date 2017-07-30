@@ -27,6 +27,14 @@ public class GameSettings : MonoBehaviour {
     public GameObject batteryNotifPrefab;
     public GameObject energyNotifPrefab;
     public Transform ParticleContainer;
+    public SoundGroup PlayerMoveSound;
+    public SoundGroup PlayerMove1Sound;
+    public SoundGroup DeathSound;
+    public SoundGroup ChargeSound;
+    public SoundGroup WarningSound;
+    public SoundGroup LevelEndSound;
+    public SoundGroup LevelEndOpenSound;
+    public SoundGroup Music;
 
     public static GameSettings Instance
     {
@@ -48,8 +56,9 @@ public class GameSettings : MonoBehaviour {
     private static GameSettings _instance;
 	// Use this for initialization
 	void Start () {
-		
-	}
+
+      //  SoundManager.Play(Music);
+    }
 
     void OnAwake()
     {

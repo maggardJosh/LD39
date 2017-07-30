@@ -85,6 +85,7 @@ public class PlayerController : BaseMover
         {
             if (g.enemiesKilled)
             {
+                SoundManager.Play(GameSettings.Instance.LevelEndSound);
                 MoveManager.LoadLevel(g.NextLevel);
                 return;
             }
@@ -113,6 +114,7 @@ public class PlayerController : BaseMover
             chargeObj.transform.position = transform.position + GameSettings.Instance.DustStartDisp + new Vector3(randDisp.x, randDisp.y);
 
         }
+        SoundManager.Play(GameSettings.Instance.ChargeSound);
     }
 
 
