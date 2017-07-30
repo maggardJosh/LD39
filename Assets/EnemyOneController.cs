@@ -113,7 +113,6 @@ public class EnemyOneController : EnemyController
         EnemyController e = MoveManager.ObjectInTile<EnemyController>(finalPos);
         if (e != null)
         {
-            Debug.Log(gameObject + " in the way -> " + e.gameObject + " " + e.hasMoved);
             if (!e.hasMoved)    //If it hasn't moved yet then add us to the list of people waiting on them to move
                 e.blockedMovers.Add(this);
             return false;
@@ -137,10 +136,8 @@ public class EnemyOneController : EnemyController
         PlayerController p = MoveManager.GetPlayer();
         transform.position = initialPos;
         Vector3 diff = transform.position - p.transform.position;
-        Debug.Log(gameObject + " secondary");
         foreach (Vector2 tryMove in Moves)
         {
-            Debug.Log(gameObject + " secondary " + tryMove);
             startPos = transform.position;
             Vector3 posDisp = new Vector3(tryMove.x * GameSettings.Instance.TileSize / 100f, tryMove.y * GameSettings.Instance.TileSize / 100f, 0);
             finalPos = SnapTile.Snap(startPos + posDisp);

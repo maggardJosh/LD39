@@ -40,13 +40,13 @@ public class PlayerController : BaseMover
         Vector2 tryMove = storedMove;
         storedMove = Vector2.zero;
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-            tryMove += Vector2.down;
+            tryMove = Vector2.down;
         else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-            tryMove += Vector2.up;
+            tryMove = Vector2.up;
         else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-            tryMove += Vector2.left;
+            tryMove = Vector2.left;
         else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-            tryMove += Vector2.right;
+            tryMove = Vector2.right;
 
         if (tryMove == Vector2.zero)
             return false;
@@ -95,6 +95,7 @@ public class PlayerController : BaseMover
 
         bNotif.SetLevel(GetLevel(ChargeBar.Instance.charges));
 
+        MoveManager.Instance.PlayerDoneMoving();
         base.HandleMoveDone();
     }
     private BatteryNotification.PowerLevel GetLevel(int charges)

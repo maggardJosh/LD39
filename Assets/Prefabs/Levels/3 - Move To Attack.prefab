@@ -53,12 +53,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4363089615259496}
   m_Layer: 0
-  m_Name: 2
+  m_Name: 3 - Move To Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1242285564910556
 GameObject:
   m_ObjectHideFlags: 1

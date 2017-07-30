@@ -43,12 +43,24 @@ public class MoveManager : MonoBehaviour
         _instance = this;
     }
 
+    public void PlayerDoneMoving()
+    {
+        isMoving = false;
+        MoveState = CurrentMove.ENEMIES;
+    }
+
+    public void EnemyDoneMoving()
+    {
+        isMoving = false;
+        MoveState = CurrentMove.PLAYER;
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (GameSettings.Instance.isTransitioning)
         {
-            MoveState = CurrentMove.PLAYER;
+            EnemyDoneMoving();
             return;
         }
         if (isMoving)
@@ -69,7 +81,6 @@ public class MoveManager : MonoBehaviour
                         isMoving = true;
                         ChargeBar.Instance.UseCharge();
                         EnergyExpenseNotification.Show(p.transform.position, p.lastMove);
-                        StartCoroutine(EaseFunctions.DelayAction(p.thingToKill == null ? GameSettings.Instance.MoveTime * .9f : GameSettings.Instance.AttackTime * .9f, () => { isMoving = false; MoveState = CurrentMove.ENEMIES; }));
                         return;
                     }
                 }
@@ -144,6 +155,7 @@ public class MoveManager : MonoBehaviour
     {
         if (GameSettings.Instance.isTransitioning)
             return;
+        
 
         GameSettings.Instance.TransitionLevelSelectOut(null);
         if (level == Instance.currentLevelPrefab)
