@@ -39,6 +39,8 @@ public class GameSettings : MonoBehaviour
     public SoundGroup LevelEndSound;
     public SoundGroup LevelEndOpenSound;
     public SoundGroup Music;
+    public GameObject starPrefab;
+    public Vector2 starDisp;
 
     public bool isTransitioning = true;
     public float SceneTransitionTime = 1.0f;
@@ -73,7 +75,7 @@ public class GameSettings : MonoBehaviour
     public void TransitionLevelSelectIn(bool delay = true)
     {
         isTransitioning = true;
-        Vector3 startPos = Vector3.up * 400;
+        Vector3 startPos = Vector3.up * 450;
         Vector3 endPos = Vector3.zero;
         LevelSelect.transform.localPosition = startPos;
         float cBarX = Mathf.Min(10, ((RectTransform)ChargeBar.transform).anchoredPosition.x);
@@ -102,7 +104,7 @@ public class GameSettings : MonoBehaviour
             return;
         isTransitioning = true;
         Vector3 startPos = Vector3.zero;
-        Vector3 endPos = Vector3.up * 400;
+        Vector3 endPos = Vector3.up * 450;
         LevelSelect.transform.localPosition = startPos;
         float cBarX = -70;
         float cBarTargetX = 10;

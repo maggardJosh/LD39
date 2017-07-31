@@ -86,6 +86,7 @@ public class PlayerController : BaseMover
             if (g.enemiesKilled)
             {
                 SoundManager.Play(GameSettings.Instance.LevelEndSound);
+                PlayerPrefs.SetInt(GameSettings.Instance.currentLevel.ToString(), 1);
                 MoveManager.LoadLevel(g.NextLevel);
                 return;
             }

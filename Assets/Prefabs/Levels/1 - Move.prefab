@@ -747,7 +747,9 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1785409719942992}
-  m_Text: Arrows To Move
+  m_Text: 'Arrows or WASD
+
+    To Move'
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -768,7 +770,9 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1945632188886254}
-  m_Text: Arrows To Move
+  m_Text: 'Arrows or WASD
+
+    To Move'
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1

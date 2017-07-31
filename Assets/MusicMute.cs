@@ -10,7 +10,7 @@ public class MusicMute : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         Toggle t = GetComponent<Toggle>();
-        t.isOn = PlayerPrefs.GetInt("Muted") == 1;
+        t.isOn = PlayerPrefs.GetInt("Muted", 1) == 1;
         UpdateMute(t.isOn);
 	}
 	
