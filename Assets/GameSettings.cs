@@ -41,6 +41,7 @@ public class GameSettings : MonoBehaviour
     public SoundGroup Music;
     public GameObject starPrefab;
     public Vector2 starDisp;
+    public float MinSwipeDist = 35;
 
     public bool isTransitioning = true;
     public float SceneTransitionTime = 1.0f;

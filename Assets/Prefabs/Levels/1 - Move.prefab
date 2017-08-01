@@ -256,7 +256,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1909597039936576
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,6 +895,10 @@ MonoBehaviour:
     m_Bits: 0
   storedMove: {x: 0, y: 0}
   bNotif: {fileID: 0}
+  mouseMove: {x: 0, y: 0}
+  fingerIndex: -1
+  swipeStartPos: {x: 0, y: 0}
+  mouseSwipeStartPos: {x: 0, y: 0, z: 0}
   lastMove: {x: 0, y: 0, z: 0}
 --- !u!114 &114384335947853850
 MonoBehaviour:

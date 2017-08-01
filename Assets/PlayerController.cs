@@ -33,11 +33,90 @@ public class PlayerController : BaseMover
             storedMove = Vector2.right;
     }
 
+    public Vector2 mouseMove = Vector2.zero;
+    public int fingerIndex = -1;
+    public Vector2 swipeStartPos;
+    public Vector3 mouseSwipeStartPos;
+    public void CheckSwipe()
+    {
+        float minSwipeDist = GameSettings.Instance.MinSwipeDist;
+        if(Input.GetMouseButtonDown(0))
+        {
+            fingerIndex = 0;
+            mouseSwipeStartPos = Input.mousePosition;
+        }
+
+        if(Input.GetMouseButtonUp(0))
+        {
+            fingerIndex = -1;
+            Vector3 swipe = (Input.mousePosition - mouseSwipeStartPos);
+            Debug.Log(swipe);
+            if (swipe.sqrMagnitude >= minSwipeDist * minSwipeDist)
+            {
+                if (Mathf.Abs(swipe.x) >= Mathf.Abs(swipe.y))
+                {
+                    if (swipe.x > 0)
+                        mouseMove = Vector2.right;
+                    else
+                        mouseMove = Vector2.left;
+                }
+                else
+                {
+                    if (swipe.y > 0)
+                        mouseMove = Vector2.up;
+                    else
+                        mouseMove = Vector2.down;
+                }
+            }
+
+        }
+        foreach (Touch t in Input.touches)
+        {
+            switch (t.phase)
+            {
+                case TouchPhase.Began:
+                    if (fingerIndex == -1)
+                    {
+                        fingerIndex = t.fingerId;
+                        swipeStartPos = t.position;
+                    }
+                    break;
+                case TouchPhase.Ended:
+                    if (fingerIndex == t.fingerId)
+                    {
+                        Vector2 swipe = (t.position - swipeStartPos);
+                        if (swipe.sqrMagnitude >= minSwipeDist * minSwipeDist)
+                        {
+                            if(Mathf.Abs(swipe.x) >= Mathf.Abs(swipe.y))
+                            {
+                                if (swipe.x > 0)
+                                    mouseMove = Vector2.right;
+                                else
+                                    mouseMove = Vector2.left;
+                            }
+                            else
+                            {
+                                if (swipe.y > 0)
+                                    mouseMove = Vector2.up;
+                                else
+                                    mouseMove = Vector2.down;
+                            }
+                        }
+                        fingerIndex = 0;
+                    }
+                    break;
+            }
+        }
+    }
+
     public Vector3 lastMove = Vector3.zero;
     public override bool TryMove(bool firstTime = true)
     {
-
+        CheckSwipe();
         Vector2 tryMove = storedMove;
+        if (mouseMove != Vector2.zero)
+            tryMove = mouseMove;
+        mouseMove = Vector2.zero;
         storedMove = Vector2.zero;
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             tryMove = Vector2.down;
