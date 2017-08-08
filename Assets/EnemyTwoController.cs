@@ -77,7 +77,7 @@ public class EnemyTwoController : EnemyController
             transform.position = finalPos;
         hasMoved = true;
         foreach (EnemyController ec in blockedMovers)
-            if (!ec.hasMoved)
+            if (ec!=null && !ec.hasMoved)
                 ec.TryIdealMove();
         blockedMovers.Clear();
         return true;
@@ -115,7 +115,7 @@ public class EnemyTwoController : EnemyController
                 transform.position = finalPos;
             hasMoved = true;
             foreach (EnemyController ec in blockedMovers)
-                if (!ec.hasMoved)
+                if (ec!=null && !ec.hasMoved)
                     ec.TryIdealMove();
             blockedMovers.Clear();
             return true;

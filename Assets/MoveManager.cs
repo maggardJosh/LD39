@@ -246,5 +246,6 @@ public class MoveManager : MonoBehaviour
     private void Reset()
     {
         MoveState = CurrentMove.PLAYER;
+        isMoving = false;
     }
 }
